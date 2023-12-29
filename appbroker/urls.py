@@ -10,4 +10,5 @@ urlpatterns = [
     path('propietario', crear_propietario, name='crear_propietario'),
     #path('reclamo/', crear_reclamo),
     #path('reparacion/', crear_reparacion),
+    path('buscar_propietarios', buscar_propietarios, name='buscar_propietarios')
 ]

@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block title %} MGI - Buscar Propietarios{% endblock %}
+
+{% block header %}
+<li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="#!">Soporte</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>Buscar propietarios</h2>
+<form method="get" action="{% url 'buscar_propietarios' %}">
+    {{ form.query }}
+    <p>Buscar por:</p>
+    {{ form.search_in }}
+    <button type="submit">Buscar</button>
+</form>
+
+{% if request.GET and not search_in_present %}
+    <p class="alert alert-warning">Seleccionar criterio de búsqueda</p>
+{% endif %}
+
+{% if request.GET and resultados is not None %}
+    {% if resultados %}
+        <h2>Resultados de Búsqueda</h2>
+        <ul>
+        {% for propietario in resultados %}
+            <li>
+                <strong>Nombre:</strong> {{ propietario.nombre }}<br>
+                <strong>Documento:</strong> {{ propietario.documento }}<br>
+                <strong>Teléfono:</strong> {{ propietario.telefono }}<br>
+                <strong>Email:</strong> {{ propietario.email }}<br>
+                <strong>Propiedades:</strong> {% for propiedad in propietario.propiedades.all %} {{ propiedad }}, {% endfor %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay propietarios con esos datos en el sistema.</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

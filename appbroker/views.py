@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from django.http import HttpResponse
 from appbroker.models import *
 from appbroker.forms import *
@@ -78,4 +79,29 @@ def exito(request, objeto, id):
 
 #def crear_reparacion(request):
 
+def buscar_propietarios(request):
+    form = PropietariosSearchForm(request.GET or None)
+    resultados = None
+    criterio_elegido = False
 
+    if request.method == 'GET' and 'query' in request.GET:
+        print("Formulario recibido:", request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            buscar_por = form.cleaned_data['search_in']
+            if buscar_por:
+                criterio_elegido = True
+                q_objects = Q()
+
+                if 'nombre' in buscar_por:
+                    q_objects |= Q(nombre__icontains=query)
+                if 'telefono' in buscar_por:
+                    q_objects |= Q(telefono__icontains=query)
+                if 'documento' in buscar_por:
+                    q_objects |= Q(documento__icontains=query)
+                if 'email' in buscar_por:
+                    q_objects |= Q(email__icontains=query)
+
+                resultados = Propietarios.objects.filter(q_objects)
+
+    return render(request, 'buscar_propietarios.html', {'form': form, 'resultados': resultados, 'criterio_elegido': criterio_elegido})

@@ -66,3 +66,17 @@ class InquilinosForm(PersonaForm):
     class Meta(PersonaForm.Meta):
         model = Inquilinos
         widgets = PersonaForm.Meta.widgets
+
+class PropietariosSearchForm(forms.Form):
+    query = forms.CharField(label='Buscar', required=False)
+    search_in = forms.MultipleChoiceField(
+        label='Buscar por:',
+        choices=[
+            ('nombre', 'Nombre'),
+            ('telefono', 'Teléfono'),
+            ('documento', 'Documento'),
+            ('email', 'Email')
+        ],
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
