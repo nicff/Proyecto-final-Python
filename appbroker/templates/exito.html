@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Asistente de gestión inmobiliaria" />
+        <meta name="author" content="Nicolas Cafferata" />
+        <title>Mi Gestión Inmobiliaria</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/png" href="{% static 'assets/icon.png' %}">
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-lg-5">
+                <nav class="navbar bg-light">
+                    <div class="container">
+                      <a class="navbar-brand" href="{% url 'home' %}">
+                        <img src="{% static 'assets/icon.png' %}" alt="migestion" width="32" height="32" class="d-inline-block align-text-top">
+                        Mi Gestión Inmobiliaria
+                      </a>
+                    </div>
+                  </nav>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">Soporte</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Header-->
+        <header class="py-5">
+            <div class="container px-lg-5">
+                <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+                    <div class="m-4 m-lg-5">
+                        {% if objeto == 'propiedad' %}
+                            <h1 class="display-5 fw-bold">Nueva propiedad cargada con éxito en la base de datos:</h1>
+                            <h2 class="display-5">{{ propiedad_nueva.tipo|capfirst }} con ubicación en {{ propiedad_nueva.ubicacion }}</h2>
+                        {% elif objeto == 'inquilino' %}
+                            <h1 class="display-5 fw-bold">Nuevo inquilino creado con éxito en la base de datos:</h1>
+                            <h2 class="display-5">{{ inquilino_nuevo.nombre }} con documento {{ inquilino_nuevo.documento }}</h2>
+                        {% elif objeto == 'propietario' %}
+                            <h1 class="display-4">Nuevo propietario creado con éxito en la base de datos:</h1>
+                            <h2 class="d-inline-block">{{ propietario_nuevo.nombre }}, con documento {{ propietario_nuevo.documento }}</h2>
+                            {% if propiedades_del_propietario.count >= 1 %}
+                                <h1 class="display-4">Propiedades asignadas:</h1>
+                                {% for propiedad in propiedades_del_propietario %}
+                                <li><h2 class="d-inline-block">{{ propiedad.tipo|capfirst }} en {{ propiedad.ubicacion }}</h2></li>
+                                {% endfor %}
+                                {% endif %}
+                        {% elif objeto == 'contrato' %}
+                        <h1 class="display-5 fw-bold">Nuevo contrato cargado con éxito en la base de datos:</h1>
+                        <h2 class="display-5">{{ contrato_nuevo.propiedad }}. <p>Locatario: {{ contrato_nuevo.inquilino }}</p><p>Locador: {{ contrato_nuevo.propietario }}</p></h2>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </header>
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="mb-0 text-center text-white">Copyright &copy; Nicolas Cafferata 2023</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts.js' %}"></script>
+    </body>
+</html>
