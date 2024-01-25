@@ -34,6 +34,8 @@ class Propiedades(models.Model):
 
     def __str__(self):
         return f'{self.tipo.capitalize()} en {self.ubicacion}'
+    class Meta:
+        verbose_name_plural = 'Propiedades'
     
 class Persona(models.Model):
     nombre = models.CharField(max_length=40)
@@ -48,14 +50,20 @@ class Persona(models.Model):
 
 class Inquilinos(Persona):
     propiedades = models.ManyToManyField(Propiedades)
+    class Meta:
+        verbose_name_plural = 'Inquilinos'
     pass
 
 class Propietarios(Persona):
     propiedades = models.ManyToManyField(Propiedades)
+    class Meta:
+        verbose_name_plural = 'Propietarios'
     pass
 
 class Compradores(Persona):
     propiedades = models.ManyToManyField(Propiedades)
+    class Meta:
+        verbose_name_plural = 'Compradores'
     pass
 
 class Contratos(models.Model):
@@ -67,6 +75,8 @@ class Contratos(models.Model):
     valor_alquiler = models.CharField(max_length=20)
     def __str__(self):
         return f'Contrato de propiedad ID {self.propiedad}'
+    class Meta:
+        verbose_name_plural = 'Contratos'
 
 class Compras(models.Model):
     propiedad = models.ForeignKey(Propiedades, on_delete=models.CASCADE)
@@ -75,12 +85,23 @@ class Compras(models.Model):
     fecha = models.DateField(blank=True, null=True)
     def __str__(self):
         return f'Compra de propiedad ID {self.propiedad}'
+    class Meta:
+        verbose_name_plural = 'Compras'
 
 class resuelto(models.TextChoices): # Defino el estado 'Resuelto' acá para usarlo en los modelo 'Reclamos' y 'Reparymant'
     RESUELTO = 'resuelto', 'Resuelto'
     NO_RESUELTO = 'no_resuelto', 'No resuelto'
     EN_PROCESO = 'en_proceso', 'En proceso'
 
+class Pagos(models.Model):
+    contrato = models.ForeignKey(Contratos, on_delete=models.CASCADE)
+    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha = models.DateField()
+
+    def __str__(self):
+        return f'Pago de {self.monto} por {self.contrato.inquilino.nombre} el {self.fecha}'
+    class Meta:
+        verbose_name_plural = 'Pagos'
 class Reclamos(models.Model):
 
     class tipo_reclamante(models.TextChoices):
@@ -94,6 +115,8 @@ class Reclamos(models.Model):
     reclamante = models.CharField(max_length=20, choices=tipo_reclamante.choices, blank=True, null=True)
     def __str__(self):
         return f'Reclamo de {self.reclamante.lower()}, {self.estado.lower()}, con fecha {self.fecha}'
+    class Meta:
+        verbose_name_plural = 'Reclamos'
 
 class Reparymant(models.Model):
 
@@ -112,3 +135,5 @@ class Reparymant(models.Model):
     fecha = models.DateField(blank=True, null=True)
     def __str__(self):
         return f'Reparación de propiedad ID {self.propiedad}'
+    class Meta:
+        verbose_name_plural = 'Reparaciones y mantenimiento'
