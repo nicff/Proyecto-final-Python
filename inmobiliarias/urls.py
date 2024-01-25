@@ -20,6 +20,6 @@ from appbroker.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('nuevo/', include('appbroker.urls')),
-    path('', home, name='home')
+    path('', include('appbroker.urls')),
+    path('', home, name='home'),
 ]

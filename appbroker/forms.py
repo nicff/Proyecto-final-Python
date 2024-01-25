@@ -17,7 +17,11 @@ class PropiedadesForm(forms.ModelForm):
             'valor_alquiler': forms.TextInput(attrs={'class': 'form-control'}),
             'valor_venta': forms.TextInput(attrs={'class': 'form-control'}),
             'expensas': forms.TextInput(attrs={'class': 'form-control'}),
+            'propietario': forms.Select(attrs={'class': 'form-control'}),
         }
+        def __init__(self, *args, **kwargs):
+            super(PropiedadesForm, self).__init__(*args, **kwargs)
+            self.fields['propietario'].queryset = Propietarios.objects.all()
 
 class ContratosForm(forms.ModelForm):
     class Meta:
@@ -52,15 +56,10 @@ class PersonaForm(forms.ModelForm): # Ya que inquilinos, propietarios y comprado
 class PropietariosForm(PersonaForm):
         class Meta(PersonaForm.Meta):
             model = Propietarios
-            fields = PersonaForm.Meta.fields + ['propiedades']
             widgets = PersonaForm.Meta.widgets
-            widgets.update({
-                'propiedades': forms.SelectMultiple(attrs={'class': 'form-control'}), # Permito la selección de 1 o más propiedades que pueda poseer el propietario
-            })
 
         def __init__(self, *args, **kwargs):
             super(PropietariosForm, self).__init__(*args, **kwargs)
-            self.fields['propiedades'].queryset = Propiedades.objects.all() # Cargo las propiedades existentes en la base de datos
 
 class InquilinosForm(PersonaForm):
     class Meta(PersonaForm.Meta):

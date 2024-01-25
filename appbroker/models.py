@@ -1,5 +1,4 @@
 from django.db import models
-
 class Propiedades(models.Model):
 
     class haves(models.TextChoices):
@@ -31,6 +30,8 @@ class Propiedades(models.Model):
     valor_alquiler = models.CharField(max_length=20, blank=True, null=True)
     valor_venta = models.CharField(max_length=20, blank=True, null=True)
     expensas = models.CharField(max_length=20, blank=True, null=True)
+    propietario = models.ForeignKey('Propietarios', blank=False, on_delete=models.CASCADE, related_name='propiedades_asignadas_al_propietario', related_query_name='propiedades_asignadas_a_propietario')
+
 
     def __str__(self):
         return f'{self.tipo.capitalize()} en {self.ubicacion}'
@@ -55,7 +56,9 @@ class Inquilinos(Persona):
     pass
 
 class Propietarios(Persona):
-    propiedades = models.ManyToManyField(Propiedades)
+    propiedades_asignadas = models.ManyToManyField(Propiedades, related_name='propietario_asignado_a_propiedad', related_query_name='propietario_asignado_a_la_propiedad')
+    def __str__(self):
+        return f'{self.nombre} - Documento: {self.documento}'
     class Meta:
         verbose_name_plural = 'Propietarios'
     pass

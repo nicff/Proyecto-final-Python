@@ -1,0 +1,40 @@
+{% extends "index.html" %}
+
+{% block title %} MGI - Propiedades {% endblock %}
+
+{% block header %}
+<li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="#!">Soporte</a></li>
+{% endblock %}
+
+{% block content %}
+<header class="py-5">
+    <div class="container px-lg-5">
+        <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+            <div class="m-4 m-lg-5">
+                    <h1 class="display-5 fw-bold">Propiedades:</h1>
+                        <ol>
+                            {% for propiedad in propiedades %}
+                            <li>
+                                <h5 class="display-8"> 
+                                    {{ propiedad }},
+                                    {% if propiedad.tipo == 'casa' or propiedad.tipo == 'departamento' %}
+                                        {% if propiedad.habitaciones != 0 %} 
+                                            {{ propiedad.habitaciones }} habitaciones,
+                                        {% else %} 
+                                            Monoambiente,
+                                        {% endif %}
+                                        de {{ propiedad.propietario }}
+                                    {% endif %}
+                                </h5>
+                                <a href="{% url 'detalles' pk=propiedad.id %}" class="btn btn-secondary">Ver Detalles</a>
+                                <a href="{% url 'editar_propiedad' propiedad.id %}" class="btn btn-secondary">Editar</a>
+                                <a href="{% url 'eliminar_propiedad' propiedad.id %}" class="btn btn-secondary">Eliminar</a>
+                            </li>
+                            {% endfor %}
+                        </ol>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}

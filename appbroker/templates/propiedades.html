@@ -1,0 +1,83 @@
+{% extends "index.html" %}
+
+{% block title %} MGI - Propiedades {% endblock %}
+
+{% block header %}
+<li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="#!">Soporte</a></li>
+{% endblock %}
+
+{% block content %}
+<header class="py-5">
+    <div class="container px-lg-5">
+        <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+            <div class="m-4 m-lg-5">
+                    <h1 class="display-5 fw-bold">Propiedades:</h1>
+                        <ol>
+                            {% for propiedad in propiedades %}
+                            <li>
+                                <h5 class="display-7"> 
+                                    {{ propiedad }},
+                                    {% if propiedad.tipo == 'casa' or propiedad.tipo == 'departamento' %}
+                                        {% if propiedad.habitaciones != 0 %} 
+                                            {{ propiedad.habitaciones }} habitaciones,
+                                        {% else %} 
+                                            Monoambiente,
+                                        {% endif %}
+                                        de {{ propiedad.propietario }}
+                                    {% endif %}
+                                </h5>
+                            </li>
+                        </h5>
+                        <!-- Botón para abrir el modal -->
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalPropiedad{{ propiedad.id }}">
+                            Ver Detalles
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalPropiedad{{ propiedad.id }}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalLabel">{{ propiedad.tipo|capfirst }} en {{ propiedad.ubicacion }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <strong>Estado:</strong> {{ propiedad.get_estado_display }}<br>
+                                        {% if propiedad.habitaciones %}
+                                            <strong>Habitaciones:</strong> {{ propiedad.habitaciones }}<br>
+                                        {% endif %}
+                                        {% if propiedad.baños %}
+                                            <strong>Baños:</strong> {{ propiedad.baños }}<br>
+                                        {% endif %}
+                                        {% if propiedad.balcon %}
+                                            <strong>Balcón:</strong> {{ propiedad.balcon|yesno:"Sí,No" }}<br>
+                                        {% endif %}
+                                        {% if propiedad.pileta %}
+                                            <strong>Pileta:</strong> {{ propiedad.pileta|yesno:"Sí,No" }}<br>
+                                        {% endif %}
+                                        {% if propiedad.garage %}
+                                            <strong>Garage:</strong> {{ propiedad.garage|yesno:"Sí,No" }}<br>
+                                        {% endif %}
+                                        {% if propiedad.valor_alquiler %}
+                                            <strong>Valor de Alquiler:</strong> {{ propiedad.valor_alquiler }}<br>
+                                        {% endif %}
+                                        {% if propiedad.valor_venta %}
+                                            <strong>Valor de Venta:</strong> ${{ propiedad.valor_venta }}<br>
+                                        {% endif %}
+                                        {% if propiedad.expensas %}
+                                            <strong>Expensas:</strong> ${{ propiedad.expensas }}<br>
+                                        {% endif %}
+                                        <strong>Propietario:</strong> {{ propiedad.propietario }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ol>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}

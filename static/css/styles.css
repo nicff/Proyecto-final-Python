@@ -262,6 +262,12 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   text-decoration: none;
 }
 
+.link-btn {
+  color: var(--bs-link-hover-color);
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
 pre,
 code,
 kbd,

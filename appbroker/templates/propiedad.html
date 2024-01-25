@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+
+{% block title %} MGI - Detalles de propiedad {% endblock %}
+
+{% block header %}
+<li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="#!">Soporte</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            Detalles de la Propiedad
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ object.tipo|capfirst }} en {{ object.ubicacion }}</h5>
+            <p class="card-text">
+                <strong>Estado:</strong> {{ object.get_estado_display }}<br>
+                {% if object.habitaciones %}
+                    <strong>Habitaciones:</strong> {{ object.habitaciones }}<br>
+                {% endif %}
+                {% if object.baños %}
+                    <strong>Baños:</strong> {{ object.baños }}<br>
+                {% endif %}
+                {% if object.balcon %}
+                    <strong>Balcón:</strong> {{ object.balcon|yesno:"Sí,No" }}<br>
+                {% endif %}
+                {% if object.pileta %}
+                    <strong>Pileta:</strong> {{ object.pileta|yesno:"Sí,No" }}<br>
+                {% endif %}
+                {% if object.garage %}
+                    <strong>Garage:</strong> {{ object.garage|yesno:"Sí,No" }}<br>
+                {% endif %}
+                {% if object.valor_alquiler %}
+                    <strong>Valor de Alquiler:</strong> {{ object.valor_alquiler }}<br>
+                {% endif %}
+                {% if object.valor_venta %}
+                    <strong>Valor de Venta:</strong> ${{ object.valor_venta }}<br>
+                {% endif %}
+                {% if object.expensas %}
+                    <strong>Expensas:</strong> ${{ object.expensas }}<br>
+                {% endif %}
+                <strong>Propietario:</strong> {{ object.propietario }}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
+from django.views.generic.detail import DetailView
 from django.db.models import Q
-from django.http import HttpResponse
 from appbroker.models import *
 from appbroker.forms import *
 
@@ -39,7 +39,6 @@ def crear_propietario(request):
             nuevo_propietario = form.save(commit=False)
             nuevo_propietario.save()
             form.save_m2m()
-            print("Propiedades guardadas:", nuevo_propietario.propiedades.all())
             return redirect('exito', objeto='propietario', id=nuevo_propietario.id)
     else:
         form = PropietariosForm()
@@ -61,15 +60,14 @@ def crear_inquilino(request):
 
 def exito(request, objeto, id):
     contexto = {'objeto': objeto}
-    if objeto == 'propiedad':
-        contexto['propiedad_nueva'] = Propiedades.objects.get(id=id)
+    if objeto == 'propiedad' or objeto == 'propiedad_editada':
+        contexto['propiedad'] = Propiedades.objects.get(id=id)
     elif objeto == 'inquilino':
-        contexto['inquilino_nuevo'] = Inquilinos.objects.get(id=id)
+        contexto['inquilino'] = Inquilinos.objects.get(id=id)
     elif objeto == 'propietario':
-        contexto['propietario_nuevo'] = Propietarios.objects.get(id=id)
-        contexto['propiedades_del_propietario'] = contexto['propietario_nuevo'].propiedades.all()
+        contexto['propietario'] = Propietarios.objects.get(id=id)
     elif objeto == 'contrato':
-        contexto['contrato_nuevo'] = Contratos.objects.get(id=id)
+        contexto['contrato'] = Contratos.objects.get(id=id)
 
     return render(request, 'exito.html', contexto)
 
@@ -105,3 +103,39 @@ def buscar_propietarios(request):
                 resultados = Propietarios.objects.filter(q_objects)
 
     return render(request, 'buscar_propietarios.html', {'form': form, 'resultados': resultados, 'criterio_elegido': criterio_elegido})
+
+def ver_propiedades(request):
+    propiedades = Propiedades.objects.all()
+    return render(request, 'propiedades.html', {'propiedades':propiedades})
+
+def gestion_propiedades(request):
+    propiedades = Propiedades.objects.all()
+    return render(request, 'gestion_propiedades.html', {'propiedades':propiedades})
+
+def eliminar_propiedad(request, prop_id):
+    propiedad = Propiedades.objects.get(id=prop_id)
+    propiedad.delete()
+    
+    propiedades = Propiedades.objects.all()
+    return render(request, 'gestion_propiedades.html', {'propiedades':propiedades})
+
+def editar_propiedad(request, prop_id):
+    propiedad = Propiedades.objects.get(id=prop_id)
+    
+    if request.method == 'POST':
+        formulario_edicion = PropiedadesForm(request.POST, instance=propiedad)
+        
+        if formulario_edicion.is_valid():
+            formulario_edicion.save()
+            
+            return redirect('exito', objeto='propiedad_editada', id=propiedad.id)
+    
+    else:
+        formulario_edicion = PropiedadesForm(instance=propiedad)
+        
+    return render(request, 'editar_propiedad.html', {'form': formulario_edicion, 'propiedad': propiedad})
+class PropiedadDetalles(DetailView):
+    
+    model = Propiedades
+    template_name = 'propiedad.html'
+        

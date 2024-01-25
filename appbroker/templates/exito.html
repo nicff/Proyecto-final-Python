@@ -14,13 +14,16 @@
             <div class="m-4 m-lg-5">
                 {% if objeto == 'propiedad' %}
                     <h1 class="display-5 fw-bold">Nueva propiedad cargada con éxito en la base de datos:</h1>
-                    <h2 class="display-5">{{ propiedad_nueva.tipo|capfirst }} con ubicación en {{ propiedad_nueva.ubicacion }}</h2>
+                    <h2 class="display-5">{{ propiedad.tipo|capfirst }} con ubicación en {{ propiedad.ubicacion }}</h2>
+                {% elif objeto == 'propiedad_editada' %}
+                    <h1 class="display-5 fw-bold">La siguiente propiedad se modificó con éxito:</h1>
+                    <h2 class="display-5">{{ propiedad.tipo|capfirst }} con ubicación en {{ propiedad.ubicacion }}</h2>
                 {% elif objeto == 'inquilino' %}
                     <h1 class="display-5 fw-bold">Nuevo inquilino creado con éxito en la base de datos:</h1>
-                    <h2 class="display-5">{{ inquilino_nuevo.nombre }} con documento {{ inquilino_nuevo.documento }}</h2>
+                    <h2 class="display-5">{{ inquilino.nombre }} con documento {{ inquilino.documento }}</h2>
                 {% elif objeto == 'propietario' %}
                     <h1 class="display-4">Nuevo propietario creado con éxito en la base de datos:</h1>
-                    <h2 class="d-inline-block">{{ propietario_nuevo.nombre }}, con documento {{ propietario_nuevo.documento }}</h2>
+                    <h2 class="d-inline-block">{{ propietario.nombre }}, con documento {{ propietario.documento }}</h2>
                     {% if propiedades_del_propietario.count >= 1 %}
                         <h1 class="display-4">Propiedades asignadas:</h1>
                         {% for propiedad in propiedades_del_propietario %}
@@ -29,7 +32,7 @@
                         {% endif %}
                 {% elif objeto == 'contrato' %}
                 <h1 class="display-5 fw-bold">Nuevo contrato cargado con éxito en la base de datos:</h1>
-                <h2 class="display-5">{{ contrato_nuevo.propiedad }}. <p>Locatario: {{ contrato_nuevo.inquilino }}</p><p>Locador: {{ contrato_nuevo.propietario }}</p></h2>
+                <h2 class="display-5">{{ contrato.propiedad }}. <p>Locatario: {{ contrato.inquilino }}</p><p>Locador: {{ contrato.propietario }}</p></h2>
                 {% endif %}
             </div>
         </div>

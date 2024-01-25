@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 
-{% block title %} MGI - Propiedad Nueva {% endblock %}
+{% block title %} MGI - Editar Propiedad {% endblock %}
 
 {% block header %}
 <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a></li>
@@ -12,7 +12,7 @@
     <div class="container px-lg-5">
         <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
             <div class="m-4 m-lg-5">
-                <h1 class="display-5 fw-bold">Nueva propiedad</h1>
+                <h1 class="display-5 fw-bold">Editar propiedad</h1>
             </div>
         </div>
     </div>
@@ -77,8 +77,7 @@
                 <label for="propietario" class="form-label">Propietario:</label>
                 {{ form.propietario }}
             </div>
-            <button class="btn btn-primary"><a href="{% url 'crear_propietario' %}" class="link-btn">Crear nuevo propietario</a></button>
-            <button type="submit" class="btn btn-primary">Cargar propiedad</button>
+            <button type="submit" class="btn btn-primary">Editar propiedad</button>
             </form>
     </div>
 </section>

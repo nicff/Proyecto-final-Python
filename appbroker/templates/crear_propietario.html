@@ -61,12 +61,12 @@
                 <label for="email" class="form-label">Correo electrónico:</label>
                 {{ form.email }}
             </div>
-            <div class="mb-3">
-                <label for="propiedades" class="form-label">Dueño de:</label>
-                {{ form.propiedades }}
-            </div>
-            <a href="{% url 'crear_propiedad' %}">Crear nueva propiedad</a>
             <button type="submit" class="btn btn-primary">Crear propietario</button>
+
+            {{ form.non_field_errors }}
+{% for field in form %}
+    {{ field.errors }}
+{% endfor %}
         </form>
     </div>
 </section>
