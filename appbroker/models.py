@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 class Propiedades(models.Model):
 
     class haves(models.TextChoices):
@@ -140,3 +142,38 @@ class Reparymant(models.Model):
         return f'Reparación de propiedad ID {self.propiedad}'
     class Meta:
         verbose_name_plural = 'Reparaciones y mantenimiento'
+        
+class User(AbstractUser):
+    username = models.CharField(
+        max_length=18, 
+        unique=True, 
+        help_text='', 
+        validators=[RegexValidator(regex=r'^[\w.@+-]+$', message="El nombre de usuario solo puede contener letras, números y @/./+/-/_.")],
+        error_messages={
+            'unique': "Nombre de usuario ya existente",
+        },)
+    email = models.EmailField(unique=True)
+    tipo_usuario_opciones = [
+        ('invitado', 'Invitado'),
+        ('inquilino', 'Inquilino'),
+        ('inmobiliaria', 'Inmobiliaria'),
+        ('propietario', 'Propietario'),
+        ('comprador', 'Comprador'),
+    ]
+    tipo_usuario = models.CharField(max_length=15, choices=tipo_usuario_opciones)
+    telefono = models.IntegerField()
+    groups = models.ManyToManyField(
+        'auth.Group',
+        verbose_name='Grupo al que pertenece',
+        blank=True,
+        related_name="usuario_inmobiliaria",
+        related_query_name="usuario",
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        verbose_name='Permisos del usuario',
+        blank=True,
+        related_name="permisos_usuario_inmobiliaria",
+        related_query_name="usuario",
+    )
+    

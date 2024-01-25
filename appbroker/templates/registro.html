@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+
+{% block title %} MGI - Registro{% endblock %}
+
+{% block header %}
+<li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="#!">Soporte</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3" display="inline-block">
+    <div class="row">
+        <div class="col-lg-6">
+            <h2 class="text-center">Registro</h2>
+            <div class="form-group" >
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit">Registrarse</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

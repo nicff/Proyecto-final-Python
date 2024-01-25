@@ -1,4 +1,7 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout, authenticate
 from appbroker.models import *
 
 class PropiedadesForm(forms.ModelForm):
@@ -79,3 +82,18 @@ class PropietariosSearchForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         required=False
     )
+
+class UserRegisterForm(UserCreationForm):
+    
+    username = forms.CharField(label='Nombre de Usuario')
+    tipo_usuario = forms.ChoiceField(choices=User.tipo_usuario_opciones)
+    email = forms.EmailField(label='Email')
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Repite la contraseña', widget=forms.PasswordInput)
+    telefono = forms.IntegerField(label='Teléfono', help_text='Ingresar únicamente números')
+    
+    
+    class Meta:
+        model = User
+        fields = ['tipo_usuario', 'username', 'email', 'telefono', 'password1', 'password2']
+        

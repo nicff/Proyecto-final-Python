@@ -12,7 +12,11 @@
     <div class="container px-lg-5">
         <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
             <div class="m-4 m-lg-5">
-                {% if objeto == 'propiedad' %}
+                {% if objeto == 'registrousuario' %}
+                    <h1 class="display-5 fw-bold">Usuario registrado con éxito!</h1>
+                {% elif objeto == 'loginusuario' %}
+                <h1 class="display-5 fw-bold">Login exitoso! <p>Bienvenido/a.</p></h1>
+                {% elif objeto == 'propiedad' %}
                     <h1 class="display-5 fw-bold">Nueva propiedad cargada con éxito en la base de datos:</h1>
                     <h2 class="display-5">{{ propiedad.tipo|capfirst }} con ubicación en {{ propiedad.ubicacion }}</h2>
                 {% elif objeto == 'propiedad_editada' %}
