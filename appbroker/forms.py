@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from appbroker.models import *
 
+
 class PropiedadesForm(forms.ModelForm):
     class Meta:
         model = Propiedades
@@ -86,7 +87,7 @@ class PropietariosSearchForm(forms.Form):
 class UserRegisterForm(UserCreationForm):
     
     username = forms.CharField(label='Nombre de Usuario')
-    tipo_usuario = forms.ChoiceField(choices=User.tipo_usuario_opciones)
+    tipo_usuario = forms.ChoiceField(choices=Usuario.tipo_usuario_opciones)
     email = forms.EmailField(label='Email')
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Repite la contraseña', widget=forms.PasswordInput)
@@ -94,6 +95,6 @@ class UserRegisterForm(UserCreationForm):
     
     
     class Meta:
-        model = User
+        model = Usuario
         fields = ['tipo_usuario', 'username', 'email', 'telefono', 'password1', 'password2']
         

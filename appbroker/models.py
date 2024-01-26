@@ -143,7 +143,7 @@ class Reparymant(models.Model):
     class Meta:
         verbose_name_plural = 'Reparaciones y mantenimiento'
         
-class User(AbstractUser):
+class Usuario(AbstractUser):
     username = models.CharField(
         max_length=18, 
         unique=True, 
