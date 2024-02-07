@@ -1,10 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, logout, authenticate
 from appbroker.models import *
-
-
 class PropiedadesForm(forms.ModelForm):
     class Meta:
         model = Propiedades

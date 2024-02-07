@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 class Propiedades(models.Model):
-
     class haves(models.TextChoices):
         YES = 'si', 'Sí'
         NO = 'no', 'No'
@@ -161,7 +160,7 @@ class Usuario(AbstractUser):
         ('comprador', 'Comprador'),
     ]
     tipo_usuario = models.CharField(max_length=15, choices=tipo_usuario_opciones)
-    telefono = models.IntegerField()
+    telefono = models.IntegerField(blank=True, null=True)
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name='Grupo al que pertenece',
